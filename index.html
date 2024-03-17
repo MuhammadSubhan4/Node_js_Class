@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Test</title>
+</head>
+<body>
+
+<button onclick="fetchAllAds()">Fetch All Ads</button>
+<button onclick="fetchSingleAd()">Fetch Single Ad</button>
+<button onclick="postNewAd()">Post New Ad</button>
+<button onclick="updateAd()">Update Ad</button>
+<button onclick="deleteAd()">Delete Ad</button>
+
+<script>
+// Replace this URL with the actual URL of your backend API
+const apiUrl = 'http://localhost:3001/ads';
+
+async function fetchAllAds() {
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching ads:', error);
+  }
+}
+
+async function fetchSingleAd() {
+  const adId = prompt('Enter the ID of the ad:');
+  if (!adId) return;
+
+  try {
+    const response = await fetch(`${apiUrl}/${adId}`);
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error fetching single ad:', error);
+  }
+}
+
+async function postNewAd() {
+  const adData = {
+    // Replace with the data you want to post
+    title: 'New Ad',
+    description: 'This is a new ad.',
+  };
+
+  try {
+    const response = await fetch(`${apiUrl}/post`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(adData),
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error posting new ad:', error);
+  }
+}
+
+async function updateAd() {
+  const adId = prompt('Enter the ID of the ad to update:');
+  if (!adId) return;
+
+  const updatedData = {
+    // Replace with the data you want to update
+    title: 'Updated Ad',
+    description: 'This ad has been updated.',
+  };
+
+  try {
+    const response = await fetch(`${apiUrl}/${adId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error updating ad:', error);
+  }
+}
+
+async function deleteAd() {
+  const adId = prompt('Enter the ID of the ad to delete:');
+  if (!adId) return;
+
+  try {
+    const response = await fetch(`${apiUrl}/${adId}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error('Error deleting ad:', error);
+  }
+}
+</script>
+
+</body>
+</html>
